@@ -48,7 +48,7 @@ cp -frp /usr/lib64/libldap* /usr/lib/
 #download the source of mysql
 mkdir -p $MYSQL_CONFIG_DIR
 cd $MYSQL_CONFIG_DIR
-#wget http://downloads.mysql.com/archives/get/file/mysql-5.5.31.tar.gz
+wget http://downloads.mysql.com/archives/get/file/mysql-5.5.31.tar.gz
 
 #install mysql
 tar zxvf mysql-5.5.31.tar.gz
