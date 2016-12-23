@@ -5,7 +5,7 @@ function need_be_root(){
 }
 
 function usage(){
-	echo "Usage: $0 <user for authorized> <passwd(default:123456)>"
+	echo "Usage: $0 <user for authorized> <os version> <passwd(default:123456)>"
 }
 
 #get the dir of this script
@@ -19,13 +19,14 @@ SRC_DIR="/tools/src"
 MYSQL_CONFIG_FILE=$DIR/my.cnf
 
 #check the parameter
-if [[ $1 == "-h" || $1 == "-help" || $# -lt 1 ]]; then
+if [[ $1 == "-h" || $1 == "-help" || $# -lt 2 ]]; then
 	usage
 	exit
 fi
 
 mysql_user=$1
-mysql_passwd=$2
+os=$2
+mysql_passwd=$3
 
 
 #This script must be executed by root
@@ -54,9 +55,16 @@ chown -R mysql:mysql $MYSQL_CONFIG_DIR
 #install the dependency libs
 echo "installing the extra libs..."
 
-yum -y install gcc gcc-c++ autoconf libtool cmake cmake-devel make freetype freetype-devel libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel libwebp-devel libjpeg-turbo-devel libmcrypt libmcrypt-devel mcrypt mhash zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel
-yum -y install svn svn-devel curl curl-devel libcurl-devel openssl openssl-devel openldap openldap-devel nss_ldap openldap-clients openldap-servers ncurses ncurses-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel libidn libidn-devel 
-yum -y install libevent libevent-devel libmemcached libmemcached-devel ImageMagick ImageMagick-devel db4-devel gdbm-devel libXpm-devel mysql-devel sqlite-devel libtidy-devel libxslt-devel 
+if [[ $os == "ubuntu" ]]; then
+	apt-get install gcc gcc-c++ autoconf libtool cmake cmake-devel make freetype freetype-devel libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel libwebp-devel libjpeg-turbo-devel libmcrypt libmcrypt-devel mcrypt mhash zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel
+	apt-get install svn svn-devel curl curl-devel libcurl-devel openssl openssl-devel openldap openldap-devel nss_ldap openldap-clients openldap-servers ncurses ncurses-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel libidn libidn-devel 
+	apt-get install libevent libevent-devel libmemcached libmemcached-devel ImageMagick ImageMagick-devel db4-devel gdbm-devel libXpm-devel mysql-devel sqlite-devel libtidy-devel libxslt-devel 
+elif [[ $os == "centos" ]]; then
+	yum -y install gcc gcc-c++ autoconf libtool cmake cmake-devel make freetype freetype-devel libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel libwebp-devel libjpeg-turbo-devel libmcrypt libmcrypt-devel mcrypt mhash zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel
+	yum -y install svn svn-devel curl curl-devel libcurl-devel openssl openssl-devel openldap openldap-devel nss_ldap openldap-clients openldap-servers ncurses ncurses-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel libidn libidn-devel 
+	yum -y install libevent libevent-devel libmemcached libmemcached-devel ImageMagick ImageMagick-devel db4-devel gdbm-devel libXpm-devel mysql-devel sqlite-devel libtidy-devel libxslt-devel 
+fi
+
 cp -frp /usr/lib64/libldap* /usr/lib/
 
 
