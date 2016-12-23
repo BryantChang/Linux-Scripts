@@ -56,9 +56,7 @@ chown -R mysql:mysql $MYSQL_CONFIG_DIR
 echo "installing the extra libs..."
 
 if [[ $os == "ubuntu" ]]; then
-	apt-get install gcc gcc-c++ autoconf libtool cmake cmake-devel make freetype freetype-devel libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel libwebp-devel libjpeg-turbo-devel libmcrypt libmcrypt-devel mcrypt mhash zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel
-	apt-get install svn svn-devel curl curl-devel libcurl-devel openssl openssl-devel openldap openldap-devel nss_ldap openldap-clients openldap-servers ncurses ncurses-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel libidn libidn-devel 
-	apt-get install libevent libevent-devel libmemcached libmemcached-devel ImageMagick ImageMagick-devel db4-devel gdbm-devel libXpm-devel mysql-devel sqlite-devel libtidy-devel libxslt-devel 
+	sudo apt-get install build-essential libncurses5-dev cmake
 elif [[ $os == "centos" ]]; then
 	yum -y install gcc gcc-c++ autoconf libtool cmake cmake-devel make freetype freetype-devel libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel libwebp-devel libjpeg-turbo-devel libmcrypt libmcrypt-devel mcrypt mhash zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel
 	yum -y install svn svn-devel curl curl-devel libcurl-devel openssl openssl-devel openldap openldap-devel nss_ldap openldap-clients openldap-servers ncurses ncurses-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel libidn libidn-devel 
