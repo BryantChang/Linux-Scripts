@@ -42,6 +42,7 @@ do
         continue;
     fi
     ip=`echo "$config_line" | cut -f1 -d "="`
+    passwd=`echo "$config_line" | cut -f2 -d "="`
     echo ''
     echo "############################################################################"
     echo "creating the directory"
