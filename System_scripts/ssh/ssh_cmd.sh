@@ -43,10 +43,10 @@ do
     expect -c "
         set timeout 3600
         spawn ssh $CUR_NAME@$ip $batch_cmd
-        expect \"yes/no\"
-        send \"yes\r\"
-        expect \"password:\"
-        send \"$passwd\r\"
+        expect \"*yes/no*\"
+        send  \"yes\r\"
+        expect \"*password*\"
+        send  \"$passwd\r\"
         expect eof
     "
     echo "finish"

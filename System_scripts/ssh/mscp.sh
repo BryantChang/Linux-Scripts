@@ -51,9 +51,9 @@ do
     expect -c "
         set timeout 3600
         spawn ssh $CUR_NAME@$ip mkdir -p $remote_dir
-        expect \"yes/no\"
+        expect \"*yes/no*\"
         send  \"yes\r\"
-        expect \"password:\"
+        expect \"*password*\"
         send  \"$passwd\r\"
         expect eof
     "
@@ -66,9 +66,9 @@ do
         expect -c "
             set timeout 3600
             spawn scp -r $local_path $CUR_NAME@$ip:$remote_dir/
-            expect \"yes/no\"
+            expect \"*yes/no*\"
             send  \"yes\r\"
-            expect \"password:\"
+            expect \"*password*\"
             send  \"$passwd\r\"
             expect eof
         "
@@ -81,9 +81,9 @@ do
         expect -c "
             set timeout 3600
             spawn scp $local_path $CUR_NAME@$ip:$remote_dir/
-            expect \"yes/no\"
+            expect \"*yes/no*\"
             send \"yes\r\"
-            expect \"password:\"
+            expect \"*password*\"
             send \"$passwd\r\"
             expect eof
         "
