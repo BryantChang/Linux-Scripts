@@ -34,6 +34,7 @@ do
         continue;
     fi
     ip=`echo "$config_line" | cut -f1 -d "="`
+    passwd=`echo "$config_line" | cut -f2 -d "="`
     echo ''
     echo "############################################################################"
     echo "executing the $batch_cmd on $ip"
@@ -43,9 +44,9 @@ do
         set timeout 3600
         spawn ssh $CUR_NAME@$ip $batch_cmd
         expect \"yes/no\"
-        send -- \"yes\r\"
+        send \"yes\r\"
         expect \"password:\"
-        send -- \"$passwd\r\"
+        send \"$passwd\r\"
         expect eof
     "
     echo "finish"
