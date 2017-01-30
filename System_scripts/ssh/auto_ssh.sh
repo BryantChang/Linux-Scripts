@@ -91,52 +91,27 @@ do
 		echo "###############################################"
 		expect -c "
 			set timeout 3600
-			spawn ssh $CUR_NAME@$ip
-			expect \"yes/no\"
-			send -- \"yes\r\"
-			expect \"password:\"
-			send -- \"$passwd\r\"
-			expect \"$SIGN\"
-			send -- \"ssh-keygen -t rsa -P '' -f $RSAFILE\r\"
-			expect \"$SIGN\"
-			send -- \"rm -rf $SSHLOC/known_hosts\r\"
-			expect \"$SIGN\"
-			send -- \"ssh-copy-id -i $RSAPUBFILE $master_ip\r\"
-			expect \"yes/no\"
-			send -- \"yes\r\"
-			expect \"password:\"
-			send -- \"$passwd\r\"
-			expect \"$SIGN\"
-			send -- \"exit\r\"
-			expect eof
+			spawn ssh-keygen -t rsa
+			 expect {
+				 \"*id_rsa*\" {send \r;exp_continue}
+				 \"*passphrase*\" {send \r;exp_continue}
+				 \"*again*\" {send \r;exp_continue}
+			}
 		"
+			
 	else
 		echo ''
 		echo "###############################################"
 		echo "Generating RSA keys for other host $ip"
 		echo "###############################################"
 		expect -c "
-			set timeout 3600
-			spawn ssh $CUR_NAME@$ip
-			expect \"yes/no\"
-			send -- \"yes\r\"
-			expect \"password:\"
-			send -- \"$passwd\r\"
-			expect \"$SIGN\"
-			send -- \"ssh-keygen -t rsa -P '' -f $RSAFILE\r\"
-			expect \"$SIGN\"
-			send -- \"rm -rf $SSHLOC/known_hosts\r\"
-			expect \"$SIGN\"
-			send -- \"ssh-copy-id -i $RSAPUBFILE $master_ip\r\"
-			expect \"yes/no\"
-			send -- \"yes\r\"
-			expect \"password:\"
-			send -- \"$passwd\r\"
-			expect \"$SIGN\"
-			send -- \"exit\r\"
-			expect eof
-
-		"
+			spawn ssh-copy-id -i $RSAPUBFILE $master_ip  
+	        expect {  
+                \"*yes/no*\" {send \"yes\r\"; exp_continue}  
+                \"*password*\" {send \"$passwd\r\"; exp_continue}  
+                \"*Password*\" {send \"$passwd\r\";}  
+	        }  
+		"  
 	fi
 done
 for config_line in $(sed 's/ //g' $ip_list_file)
@@ -158,12 +133,13 @@ do
     		echo "############################################################################"
     		echo ''
     		expect -c "
-    			set timeout 3600
-    			spawn scp $AUTHFILE $CUR_NAME@$ip:$SSHLOC
-    			expect \"password:\"
-        		send -- \"$passwd\r\"
-        		expect eof
-    		"
+	            set timeout 86400  
+	            spawn scp $AUTHFILE $CUR_NAME@$ip:$SSHLOC
+	            expect {
+	              \"*yes/no*\" {send \"yes\r\"; exp_continue}
+	              \"*password*\" {send \"$passwd\r\"; exp_continue}
+	            }
+        	"
 	fi
 	echo "all finish"
 done
