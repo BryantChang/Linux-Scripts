@@ -49,13 +49,12 @@ do
     echo "############################################################################"
     echo ''
     expect -c "
-        set timeout 3600
+        set timeout 86400  
         spawn ssh $CUR_NAME@$ip mkdir -p $remote_dir
-        expect \"*yes/no*\"
-        send  \"yes\r\"
-        expect \"*password*\"
-        send  \"$passwd\r\"
-        expect eof
+        expect {
+          \"*yes/no*\" {send \"yes\r\"; exp_continue}
+          \"*password*\" {send \"$passwd\r\"; exp_continue}
+        }
     "
     if [[ $scp_type = "dir" ]]; then
         echo ''
@@ -64,13 +63,12 @@ do
         echo "############################################################################"
         echo ''
         expect -c "
-            set timeout 3600
+            set timeout 86400  
             spawn scp -r $local_path $CUR_NAME@$ip:$remote_dir/
-            expect \"*yes/no*\"
-            send  \"yes\r\"
-            expect \"*password*\"
-            send  \"$passwd\r\"
-            expect eof
+            expect {
+              \"*yes/no*\" {send \"yes\r\"; exp_continue}
+              \"*password*\" {send \"$passwd\r\"; exp_continue}
+            }
         "
     else
         echo ''
@@ -79,13 +77,12 @@ do
         echo "############################################################################"
         echo ''
         expect -c "
-            set timeout 3600
+            set timeout 86400  
             spawn scp $local_path $CUR_NAME@$ip:$remote_dir/
-            expect \"*yes/no*\"
-            send \"yes\r\"
-            expect \"*password*\"
-            send \"$passwd\r\"
-            expect eof
+            expect {
+              \"*yes/no*\" {send \"yes\r\"; exp_continue}
+              \"*password*\" {send \"$passwd\r\"; exp_continue}
+            }
         "
        
     fi
