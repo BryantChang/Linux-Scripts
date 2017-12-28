@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function usage() {
-    "Usage: $0 <opType>(start,stop,init)"
+   echo "Usage: $0 <opType>(start,stop,init)"
 }
 
 if [[ $# -lt 1 ]]; then
@@ -29,7 +29,7 @@ if [[ ${op_type} = "start" ]]; then
         fi
         hostname=`echo ${line} | cut -d ':' -f 1`
         echo "on ${hostname} starting zk server..."
-        ssh ${hostname} "${ZOO_HOME}/bin/zkServer start"
+        ssh ${hostname} "${ZOO_HOME}/bin/zkServer.sh start"
         echo "succ"
     done
 elif [[ ${op_type} = "stop" ]]; then
@@ -39,7 +39,7 @@ elif [[ ${op_type} = "stop" ]]; then
         fi
         hostname=`echo ${line} | cut -d ':' -f 1`
         echo "on ${hostname} stopping zk server..."
-        ssh ${hostname} "${ZOO_HOME}/bin/zkServer stop"
+        ssh ${hostname} "${ZOO_HOME}/bin/zkServer.sh stop"
         echo "succ"
     done
 elif [[ ${op_type} = "init" ]]; then
