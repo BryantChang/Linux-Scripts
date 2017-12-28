@@ -1,0 +1,1 @@
+ZOO_HOME=/home/to/zk
