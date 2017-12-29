@@ -4,6 +4,10 @@ function usage() {
    echo "Usage: $0 <opType>(start,stop,init)"
 }
 
+function miss_env_file() {
+    echo "missing the zoo_env.sh, you should rename the templet file to the zoo_env.sh"
+}
+
 if [[ $# -lt 1 ]]; then
     usage
     exit
@@ -15,6 +19,11 @@ bin=`cd "$bin"; pwd`
 DIR=`cd $bin/../; pwd`
 
 ZK_SCRIPT_DIR=${DIR}/Zookeeper
+
+if [[ ! -f  ${ZK_SCRIPT_DIR}/zoo_env.sh ]]; then
+    miss_env_file
+    exit
+fi
 
 . ${ZK_SCRIPT_DIR}/zoo_env.sh
 

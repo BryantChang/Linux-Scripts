@@ -14,6 +14,7 @@
     --Platform_scripts
         --Hadoop(Hadoop平台的相关操作)
         --Spark(Spark平台操作)
+        --Zookeeper(Zookeeper常用操作)
     --System_scripts
         --iostat(磁盘带宽统计)
         --mysql(全自动安装mysql)
